@@ -4,11 +4,13 @@ version = 2
 final_space = true
 console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .HostName }})'
 
+# First prompt line (left section)
 [[blocks]]
   type = 'prompt'
   alignment = 'left'
   newline = true
 
+  # Path segment
   [[blocks.segments]]
     type = 'path'
     style = 'plain'
@@ -20,7 +22,9 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
       # style = 'full'
       style = 'agnoster_full'
 
+  # Git segment
   [[blocks.segments]]
+    type = "git"
     foreground = "green"
     foreground_templates = [
       "{{ if or (.Working.Changed) (.Staging.Changed) }}yellow{{ end }}",
@@ -31,42 +35,52 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
     background = "transparent"
     style = "plain"
     template = " {{ .UpstreamIcon }} {{ .HEAD }}{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}{{ if .Staging.Changed }}<#FF6F00>  {{ .Staging.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
-    type = "git"
 
     [blocks.segments.properties]
     fetch_status = true
     fetch_upstream_icon = true
 
+# First line prompt (right section)
 [[blocks]]
   type = 'prompt'
   alignment = 'right'
 
+  # Python section
   [[blocks.segments]]
     type = "python"
     style = "plain"
     foreground = "yellow"
     background = "transparent"
     template = " {{ .Full }} "    
-
-[[blocks]]
-  type = 'rprompt'
-  overflow = 'hidden'
-
+  
+  # Vi mode section
   [[blocks.segments]]
-    type = 'executiontime'
-    style = 'plain'
-    foreground = 'yellow'
-    background = 'transparent'
-    template = '{{ .FormattedMs }}'
+    type = "text"
+    style = "diamond"
+    leading_diamond = ""
+    template = "{{ if .Env.VI_MODE }} {{ .Env.VI_MODE }} {{ end }}"
+    # template = "{{ if .Env.VI_MODE }}{{ end }}"
+    foreground = "transparent"
+    background = "#eceff4"
+    background_templates = [
+      "{{if eq .Env.VI_MODE \"N\"}}#87bfce{{end}}",
+      "{{if eq .Env.VI_MODE \"I\"}}#eceff4{{end}}",
+      "{{if eq .Env.VI_MODE \"V\"}}#79a09f{{end}}",
+      "{{if eq .Env.VI_MODE \"R\"}}#ebcb8b{{end}}"
+    ]
 
     [blocks.segments.properties]
-      threshold = 5000
+      cache_duration = "none"
 
+
+
+# Second promt line (left section)
 [[blocks]]
   type = 'prompt'
   alignment = 'left'
   newline = true
 
+  # Command line symbol
   [[blocks.segments]]
     type = 'text'
     style = 'plain'
@@ -77,6 +91,23 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
     background = 'transparent'
     template = '❯'
 
+# Second prompt line (right section)
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  # Command's execution time segment.
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    foreground = 'yellow'
+    background = 'transparent'
+    template = '{{ .FormattedMs }}'
+
+    [blocks.segments.properties]
+      threshold = 5000
+
+# After command is executed this is the transient prompt to show.
 [transient_prompt]
   foreground_templates = [
     "{{if gt .Code 0}}red{{end}}",
@@ -85,6 +116,7 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
   background = 'transparent'
   template = '❯ '
 
+# When further prompt lines are required this is what is showed.
 [secondary_prompt]
   foreground = 'yellow'
   background = 'transparent'
