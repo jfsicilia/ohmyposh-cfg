@@ -13,10 +13,11 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
   # Path segment
   [[blocks.segments]]
     type = 'path'
-    style = 'plain'
-    background = 'transparent'
-    foreground = 'blue'
-    template = '{{ .Path }}'
+    style = 'diamond'
+    trailing_diamond = ''
+    background = '#4b5468'
+    foreground = '#e5e9f0'
+    template = ' {{ .Path }} '
 
     [blocks.segments.properties]
       # style = 'full'
@@ -25,6 +26,8 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
   # Git segment
   [[blocks.segments]]
     type = "git"
+    style = "diamond"
+    trailing_diamond = ''
     foreground = "green"
     foreground_templates = [
       "{{ if or (.Working.Changed) (.Staging.Changed) }}yellow{{ end }}",
@@ -32,8 +35,7 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
       "{{ if gt .Ahead 0 }}#B388FF{{ end }}",
       "{{ if gt .Behind 0 }}#B388FF{{ end }}"
     ]
-    background = "transparent"
-    style = "plain"
+    background = "#3b4252"
     template = " {{ .UpstreamIcon }} {{ .HEAD }}{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}{{ if .Staging.Changed }}<#FF6F00>  {{ .Staging.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} "
 
     [blocks.segments.properties]
@@ -48,10 +50,11 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
   # Python section
   [[blocks.segments]]
     type = "python"
-    style = "plain"
+    style = "diamond"
+    leading_diamond = ""
     foreground = "yellow"
-    background = "transparent"
-    template = " {{ .Full }} "    
+    background = "#3b4252"
+    template = "  {{ .Full }} "    
   
   # Vi mode section
   [[blocks.segments]]
