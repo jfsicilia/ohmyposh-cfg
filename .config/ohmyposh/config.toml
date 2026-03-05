@@ -10,6 +10,26 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
   alignment = 'left'
   newline = true
 
+  # Vi mode section
+  [[blocks.segments]]
+    type = "text"
+    style = "diamond"
+  #  leading_diamond = ""
+    trailing_diamond = ''
+    template = "{{ if .Env.VI_MODE }} {{ .Env.VI_MODE }} {{ end }}"
+    # template = "{{ if .Env.VI_MODE }}{{ end }}"
+    foreground = "transparent"
+    background = "#eceff4"
+    background_templates = [
+      "{{if eq .Env.VI_MODE \"N\"}}#87bfce{{end}}",
+      "{{if eq .Env.VI_MODE \"I\"}}#eceff4{{end}}",
+      "{{if eq .Env.VI_MODE \"V\"}}#79a09f{{end}}",
+      "{{if eq .Env.VI_MODE \"R\"}}#ebcb8b{{end}}"
+    ]
+
+    [blocks.segments.properties]
+      cache_duration = "none"
+
   # Path segment
   [[blocks.segments]]
     type = 'path'
@@ -55,27 +75,6 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
     foreground = "yellow"
     background = "#3b4252"
     template = "  {{ .Full }} "    
-  
-  # Vi mode section
-  [[blocks.segments]]
-    type = "text"
-    style = "diamond"
-    leading_diamond = ""
-    template = "{{ if .Env.VI_MODE }} {{ .Env.VI_MODE }} {{ end }}"
-    # template = "{{ if .Env.VI_MODE }}{{ end }}"
-    foreground = "transparent"
-    background = "#eceff4"
-    background_templates = [
-      "{{if eq .Env.VI_MODE \"N\"}}#87bfce{{end}}",
-      "{{if eq .Env.VI_MODE \"I\"}}#eceff4{{end}}",
-      "{{if eq .Env.VI_MODE \"V\"}}#79a09f{{end}}",
-      "{{if eq .Env.VI_MODE \"R\"}}#ebcb8b{{end}}"
-    ]
-
-    [blocks.segments.properties]
-      cache_duration = "none"
-
-
 
 # Second promt line (left section)
 [[blocks]]
