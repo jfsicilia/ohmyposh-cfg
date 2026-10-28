@@ -30,6 +30,15 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
     [blocks.segments.properties]
       cache_duration = "none"
 
+  # Host name section
+  [[blocks.segments]]
+    type = 'session'
+    style = 'diamond'
+    trailing_diamond = ''
+    background = '#5e81ac'
+    foreground = '#eceff4'
+    template = ' {{ .HostName }} '
+
   # Path segment
   [[blocks.segments]]
     type = 'path'
