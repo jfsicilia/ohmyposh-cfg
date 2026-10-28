@@ -37,7 +37,7 @@ console_title_template = '{{ .Shell }} in {{ .Folder }} ({{ .UserName }}@{{ .Hos
     trailing_diamond = ''
     background = '#5e81ac'
     foreground = '#eceff4'
-    template = ' {{ .HostName }} '
+    template = ' {{ .UserName }}@{{ .HostName }} '
 
   # Path segment
   [[blocks.segments]]
